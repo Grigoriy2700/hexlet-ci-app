@@ -13,6 +13,7 @@ Starting boilerplate of [Strapi](https://strapi.io/) application
 - NodeJS >= 26
 - pnpm 12 (точная версия указана в packageManager файла package.json)
 - [mise](https://mise.jdx.dev/getting-started.html)
+- CI training
 
 ## Using
 
