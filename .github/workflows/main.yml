@@ -56,7 +56,6 @@ jobs:
       - name: Check response
         run: test "$(curl --fail --silent http://127.0.0.1:3000/)" = wrong
       - name: Stop demo server
-        if: always()
         cancel: server
 
 
