@@ -31,11 +31,14 @@ jobs:
   parallel-demo:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.4.0
-      - uses: jdx/mise-action@v2.4.4
+      - uses: actions/checkout@v7.0.1
+      - uses: jdx/mise-action@v5.2.10
       - run: mise run setup
-      - parallel:
-          - name: Lint
-            run: mise run lint
-          - name: Test
-            run: mise run test
+      - id: tests
+        name: Run tests in background
+        run: mise run test
+        background: true
+      - name: Run linter
+        run: mise run lint
+      - name: Wait for tests
+        wait: tests
