@@ -9,6 +9,6 @@ afterAll(async () => {
 });
 
 it("strapi is defined", () => {
-  expect(strapi).toBeUndefined(); // eslint-disable-line
+  expect(strapi).toBeDefined(); // eslint-disable-line
 });
 
