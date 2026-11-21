@@ -28,3 +28,14 @@ jobs:
     needs: [lint, test]
     steps:
       - run: echo "All checks passed"
+  parallel-demo:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.4.0
+      - uses: jdx/mise-action@v2.4.4
+      - run: mise run setup
+      - parallel:
+          - name: Lint
+            run: mise run lint
+          - name: Test
+            run: mise run test
