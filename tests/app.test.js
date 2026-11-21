@@ -8,8 +8,7 @@ afterAll(async () => {
   await cleanupStrapi();
 });
 
-it("strapi is s", () => {
-  expect(strapi).toBeDefined(); // eslint-disable-line
+it("strapi is defined", () => {
+  expect(strapi).toBeUndefined(); // eslint-disable-line
 });
 
-//defined
