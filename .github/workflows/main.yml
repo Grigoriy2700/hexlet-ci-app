@@ -7,7 +7,38 @@ on:
     branches:
       - main
   workflow_dispatch:
+
+evn:
+  CHECK_LABEL: training
+
 jobs:
+
+  inspect:
+    runs-on: ubuntu-26.04
+    env:
+      DEBUG: "1"
+    steps:
+      - name: Show workflow values
+        run: |
+          printf '%s\n' "$CHECK_LABEL"
+          printf '%s\n' "$GITHUB_WORKFLOW"
+          printf '%s\n' "$DEBUG"
+      - name: Show step value
+        env:
+          CHECK_LABEL: local-step
+        run: printf '%s\n' "$CHECK_LABEL"
+      - name: Show workflow value again
+        run: printf '%s\n' "$CHECK_LABEL"
+      - name: Show run information
+        env:
+          LABEL: ${{ vars.CI_LABEL || 'training' }}
+          EVENT_NAME: ${{ github.event_name }}
+          WORKFLOW_NAME: ${{ github.workflow }}
+        run: printf '%s\n' "$LABEL" "$EVENT_NAME" "$WORKFLOW_NAME"
+      - name: Manual run information
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+        run: echo 'This step was requested manually'
+
   lint:
     runs-on: ubuntu-26.04
     steps:
@@ -15,6 +46,7 @@ jobs:
       - uses: jdx/mise-action@v5.2.10
       - run: mise run setup
       - run: mise run lint
+
   test:
     runs-on: ubuntu-26.04
     steps:
@@ -22,12 +54,14 @@ jobs:
       - uses: jdx/mise-action@v5.2.10
       - run: mise run setup
       - run: mise run test
+
   verify:
     name: CI result
     runs-on: ubuntu-latest
     needs: [lint, test]
     steps:
       - run: echo "All checks passed"
+
   parallel-demo:
     runs-on: ubuntu-latest
     steps:
@@ -42,6 +76,7 @@ jobs:
         run: mise run lint
       - name: Wait for tests
         wait: tests
+
   server-demo:
     runs-on: ubuntu-26.04
     steps:
@@ -57,5 +92,3 @@ jobs:
         run: test "$(curl --fail --silent http://127.0.0.1:3000/)" = ready
       - name: Stop demo server
         cancel: server
-
-
