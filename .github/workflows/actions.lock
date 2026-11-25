@@ -10,6 +10,8 @@ workflows:
     '.github/workflows/dependabot-automerge.yml': []
     '.github/workflows/main.yml':
         - 'actions/checkout@v7.0.1'
+        - 'actions/download-artifact@v4.3.0'
+        - 'actions/upload-artifact@v4.6.2'
         - 'jdx/mise-action@v5.2.10'
     '.github/workflows/pr-title.yml':
         - 'amannn/action-semantic-pull-request@v6.1.2'
@@ -19,6 +21,16 @@ dependencies:
         commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
         owner_id: 44036562
         repo_id: 197814629
+    'actions/download-artifact@v4.3.0':
+        ref: 'v4.3.0'
+        commit: 'sha1-d3f86a106a0bac45b974a628896c90dbdf5c8093'
+        owner_id: 44036562
+        repo_id: 192626254
+    'actions/upload-artifact@v4.6.2':
+        ref: 'v4.6.2'
+        commit: 'sha1-ea165f8d65b6e75b540449e92b4886f43607fa02'
+        owner_id: 44036562
+        repo_id: 192625955
     'amannn/action-semantic-pull-request@v6.1.2':
         ref: 'v6.1.2'
         commit: 'sha1-2252a14e810aa9b85c2d560bd7070c802206ecf6'

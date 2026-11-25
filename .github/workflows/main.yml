@@ -74,7 +74,7 @@ jobs:
         run: mise run test
       - name: Upload test report
         if: ${{ !cancelled() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.2
         with:
           name: ${{ steps.report-meta.outputs.report-name }}
           path: reports/test-results.xml
@@ -90,7 +90,7 @@ jobs:
     if: ${{ !cancelled() }}
     steps:
       - name: Download test report
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.3.0
         with:
           name: ${{ needs.test.outputs.report-name }}
           path: reports
