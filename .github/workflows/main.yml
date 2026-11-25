@@ -60,23 +60,27 @@ jobs:
       - run: mise run lint
 
   test:
-    runs-on: ubuntu-26.04
-    outputs:
-      report-name: ${{ steps.report-meta.outputs.report-name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        include:
+          - os: ubuntu-24.04
+            label: Ubuntu 24.04
+          - os: ubuntu-26.04
+            label: Ubuntu 26.04
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: jdx/mise-action@v5.2.10
       - run: mise run setup
-      - name: Set report metadata
-        id: report-meta
-        run: echo "report-name=test-report" >> "$GITHUB_OUTPUT"
-      - name: Test
+      - name: Test (${{ matrix.label }})
         run: mise run test
       - name: Upload test report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: ${{ steps.report-meta.outputs.report-name }}
+          name: test-report-${{ matrix.os }}
           path: reports/test-results.xml
           retention-days: 7
           if-no-files-found: error
