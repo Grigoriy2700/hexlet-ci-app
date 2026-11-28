@@ -83,6 +83,7 @@ jobs:
         with:
           path: ~/.local/share/pnpm/store
           key: ${{ matrix.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          cache-mode: none
           restore-keys: |
             ${{ matrix.os }}-pnpm-
       - run: mise run setup
