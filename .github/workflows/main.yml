@@ -8,6 +8,10 @@ on:
       - main
   workflow_dispatch:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 env:
   CHECK_LABEL: training
 
@@ -61,6 +65,7 @@ jobs:
 
   test:
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
     strategy:
       fail-fast: false
       max-parallel: 2
@@ -73,6 +78,13 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - uses: jdx/mise-action@v5.2.10
+      - name: Cache pnpm store
+        uses: actions/cache@v4.3.0
+        with:
+          path: ~/.local/share/pnpm/store
+          key: ${{ matrix.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ matrix.os }}-pnpm-
       - run: mise run setup
       - name: Test (${{ matrix.label }})
         run: mise run test
